@@ -17,7 +17,9 @@ const removeUser = (socketId) => {
 
 const getUser = (userId) => {
     // console.log(users);
-    return users.filter((user) => userId.indexOf(user.userId) !== -1);
+    if (userId) {
+        return users.filter((user) => userId?.indexOf(user?.userId) !== -1);
+    }
 };
 
 io.on("connection", (socket) => {
