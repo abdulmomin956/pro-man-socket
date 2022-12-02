@@ -41,10 +41,10 @@ const getUser = (userId) => {
     }
 };
 
-const getConversation = (conversationId) => {
+const getConversation = (conversationId, userId) => {
     // console.log(conversations, 46);
     if (conversationId) {
-        return conversations.filter((conversation) => conversationId?.indexOf(conversation?.conversationId) !== -1);
+        return conversations.filter((conversation) => conversationId?.indexOf(conversation?.conversationId) !== -1 && conversation.userId !== userId);
     }
 };
 
@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
     //send and get message
     socket.on("sendMessage", ({ senderId, text, conversationId }) => {
         // console.log(conversationId);
-        const conversation = getConversation(conversationId);
+        const conversation = getConversation(conversationId, senderId);
         // console.log(conversation, 72);
         conversation.map(({ socketId }) => {
             io.to(socketId).emit("getMessage", {
